@@ -15,7 +15,7 @@ queen must be placed on the chessboard.
 import sys
 
 
-def init_board(n):
+def initialize_board(n):
     """Initialize an `n`x`n` sized chessboard with 0's."""
     board = []
     [board.append([]) for i in range(n)]
@@ -67,9 +67,3 @@ def xout(board, row, col):
     for r in range(row + 1, len(board)):
         if c >= len(board):
             break
-        board[r][c] = "x"
-        c += 1
-    # X out all spots diagonally up to the left
-    c = col - 1
-    for r in range(row - 1, -1, -1):
-        if c < 0:
