@@ -1,69 +1,147 @@
 #!/usr/bin/python3
-"""Solves the N-queens puzzle.
-Determines all possible solutions to placing N
-N non-attacking queens on an NxN chessboard.
-Example:
-    $ ./101-nqueens.py N
-N must be an integer greater than or equal to 4.
-Attributes:
-    board (list): A list of lists representing the chessboard.
-    solutions (list): A list of lists containing solutions.
-Solutions are represented in the format [[r, c], [r, c], [r, c], [r, c]]
-where `r` and `c` represent the row and column, respectively, where a
-queen must be placed on the chessboard.
+"""this module contains a program that solves the N queens problem
 """
 import sys
 
 
-def initialize_board(n):
-    """Initialize an `n`x`n` sized chessboard with 0's."""
-    board = []
-    [board.append([]) for i in range(n)]
-    [row.append(' ') for i in range(n) for row in board]
-    return (board)
-
-
-def board_deepcopy(board):
-    """Return a deepcopy of a chessboard."""
-    if isinstance(board, list):
-        return list(map(board_deepcopy, board))
-    return (board)
-
-
-def get_solution(board):
-    """Return the list of lists representation of a solved chessboard."""
-    solution = []
-    for r in range(len(board)):
-        for c in range(len(board)):
-            if board[r][c] == "Q":
-                solution.append([r, c])
-                break
-    return (solution)
-
-
-def xout(board, row, col):
-    """X out spots on a chessboard.
-    All spots where non-attacking queens can no
-    longer be played are X-ed out.
-    Args:
-        board (list): The current working chessboard.
-        row (int): The row where a queen was last played.
-        col (int): The column where a queen was last played.
+def is_safe(board, row, col, N):
     """
-    # X out all forward spots
-    for c in range(col + 1, len(board)):
-        board[row][c] = "x"
-    # X out all backwards spots
-    for c in range(col - 1, -1, -1):
-        board[row][c] = "x"
-    # X out all spots below
-    for r in range(row + 1, len(board)):
-        board[r][col] = "x"
-    # X out all spots above
-    for r in range(row - 1, -1, -1):
-        board[r][col] = "x"
-    # X out all spots diagonally down to the right
-    c = col + 1
-    for r in range(row + 1, len(board)):
-        if c >= len(board):
-            break
+    Check if it's safe to place a queen at the specified position.
+
+    Args:
+        board (list): The current state of the chessboard.
+        row (int): The row index to check.
+        col (int): The column index to check.
+        N (int): The size of the chessboard.
+
+    Returns:
+        bool: True if it's safe to place a queen, False otherwise.
+    """
+    for i in range(row):
+        if board[i][col] == 1:
+            return False
+
+    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
+
+    for i, j in zip(range(row, -1, -1), range(col, N)):
+        if board[i][j] == 1:
+            return False
+
+    return True
+
+
+def solve_n_queens(N):
+    """
+    Solve the N Queens problem and return a list of solutions.
+
+    Args:
+        N (int): The size of the chessboard.
+
+    Returns:
+        list: A list of solutions, where each solution
+        is a list of queen positions.
+    """
+    board = [[0 for _ in range(N)] for _ in range(N)]
+    solutions = []
+
+    def solve(row):
+        if row == N:
+            solutions.append([[i, r.index(1)] for i, r in enumerate(board)])
+            return
+
+        for col in range(N):
+            if is_safe(board, row, col, N):
+                board[row][col] = 1
+                solve(row + 1)
+                board[row][col] = 0
+
+    solve(0)
+    return solutions
+
+
+def main():
+    """
+    Entry point of the program.
+    """
+    if len(sys.argv) != 2:
+        print("Usage: nqueens N")
+        sys.exit(1)
+
+    try:
+        N = int(sys.argv[1])
+        if N < 4:
+            print("N must be at least 4")
+            sys.exit(1)
+        solutions = solve_n_queens(N)
+        for solution in solutions:
+            print(solution)
+    except ValueError:
+        print("N must be a number")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
