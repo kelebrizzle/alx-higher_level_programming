@@ -1,14 +1,24 @@
 #!/usr/bin/python3
-"""The Square class derived from the BaseGeometry class"""
 
+"""importing Rectangle"""
 
 Rectangle = __import__('9-rectangle').Rectangle
 
+"""Write a class square that inherites from rectangle"""
+
 
 class Square(Rectangle):
-    """The Square Class"""
+    """A subclass of Rectangle"""
     def __init__(self, size):
-        """initialization"""
+        """initialize private attribute size and validate it"""
         self.integer_validator("size", size)
         super().__init__(size, size)
         self.__size = size
+
+    def area(self):
+        """returns area of a square"""
+        return self.__size ** 2
+
+    def __str__(self):
+        """Return and print the square description"""
+        return str("[Square] {:d}/{:d}".format(self.__size, self.__size))
