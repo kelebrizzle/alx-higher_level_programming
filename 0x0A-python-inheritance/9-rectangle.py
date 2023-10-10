@@ -1,24 +1,42 @@
 #!/usr/bin/python3
-
-"""The module is 9-rectangle"""
-
-BaseGeometry = __import__('7-base_geometry').BaseGeometry
+"""Module containing the `Rectangle` class inheriting from
+`BaseGeometry` class.
+"""
+BaseGeometry = __import__("7-base_geometry").BaseGeometry
 
 
 class Rectangle(BaseGeometry):
-    """A subclass of BaseGeometry class"""
+    """A class representing a rectangle, inheriting from BaseGeometry.
+
+    Attributes:
+        __width (int): The width of the rectangle (private).
+        __height (int): The height of the rectangle (private).
+
+    Args:
+        width (int): The width of the rectangle.
+        height (int): The height of the rectangle.
+
+    Raises:
+        TypeError: If width or height is not a positive integer.
+
+    Note:
+        The Rectangle class inherits from BaseGeometry and enforces
+        positive integer validation for both width and height.
+    """
 
     def __init__(self, width, height):
-        """initialize private attributes"""
+        """Initialize a Rectangle instance with width and height."""
+        # Validate width and height as positive integers
         self.integer_validator("width", width)
         self.integer_validator("height", height)
+        # Set width and height as private attributes
         self.__width = width
         self.__height = height
 
     def area(self):
-        """returns area of a rectangle and overrides area() from superclass"""
+        """Implement area of the rectangle"""
         return self.__width * self.__height
-    
+
     def __str__(self):
-        """Returns a human readable string representation"""
-        return str("[Rectangle] {}/{}".format(self.__width, self.__height))
+        """Return a string representation of the rectangle."""
+        return f"[Rectangle] {self.__width}/{self.__height}"
